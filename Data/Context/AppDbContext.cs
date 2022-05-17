@@ -9,7 +9,9 @@ namespace MoviesApi.Data.Context
 		public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt) { }
 		#endregion Constructor	
 
+
 		public DbSet<Movie> Movies { get; set; }
+		public DbSet<Theater> Theaters { get; set; }
 
 	}
 }
