@@ -14,14 +14,8 @@ namespace MoviesApi.Controllers
 {
 	public class AddressesController : BaseController
 	{
-		private AppDbContext _context;
-		private IMapper _mapper;
 
-		public AddressesController(AppDbContext context, IMapper mapper)
-		{
-			_context = context;
-			_mapper = mapper;
-		}
+		public AddressesController(AppDbContext context, IMapper mapper) : base(context, mapper) { }
 
 		[HttpGet]
 		public IEnumerable<Address> GetAddresses()

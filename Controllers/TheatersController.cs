@@ -10,14 +10,7 @@ namespace MoviesApi.Controllers
 {
 	public class TheatersController : BaseController
 	{
-		private AppDbContext _context;
-		private IMapper _mapper;
-
-		public TheatersController(AppDbContext context, IMapper mapper)
-		{
-			_context = context;
-			_mapper = mapper;
-		}
+		public TheatersController(AppDbContext context, IMapper mapper) : base(context, mapper) { }
 
 		[HttpGet]
 		public IEnumerable<Theater> GetTheaters()
@@ -29,9 +22,9 @@ namespace MoviesApi.Controllers
 		public IActionResult GetTheaterById(int id)
 		{
 			Theater theater = _context.Theaters.FirstOrDefault(x => x.Id == id);
-			if(theater == null) return NotFound();
-
-			return Ok(theater);
+			if (theater == null) return NotFound();
+			GetTheaterDto theaterDto = _mapper.Map<GetTheaterDto>(theater);
+			return Ok(theaterDto);
 		}
 
 		[HttpPost]

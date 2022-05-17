@@ -10,14 +10,7 @@ namespace MoviesApi.Controllers
 {
 	public class MoviesController : BaseController
 	{
-		private AppDbContext _context;
-		private IMapper _mapper;
-
-		public MoviesController(AppDbContext context, IMapper mapper)
-		{
-			_context = context;
-			_mapper = mapper;
-		}
+		public MoviesController(AppDbContext context, IMapper mapper) : base(context, mapper) { }
 
 		[HttpGet]
 		public IEnumerable<Movie> GetMovies()
@@ -52,7 +45,7 @@ namespace MoviesApi.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult EditMovie(int id,[FromBody] UpdateMovieDto movieDto)
+		public IActionResult EditMovie(int id, [FromBody] UpdateMovieDto movieDto)
 		{
 			Movie movie = _context.Movies.FirstOrDefault(x => x.Id == id);
 			if (movie == null) return NotFound();

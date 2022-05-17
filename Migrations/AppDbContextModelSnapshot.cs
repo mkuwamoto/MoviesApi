@@ -39,6 +39,21 @@ namespace MoviesApi.Migrations
                     b.ToTable("Address");
                 });
 
+            modelBuilder.Entity("MoviesApi.Model.Manager", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Manager");
+                });
+
             modelBuilder.Entity("MoviesApi.Model.Movie", b =>
                 {
                     b.Property<int>("Id")
@@ -78,6 +93,9 @@ namespace MoviesApi.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -86,6 +104,8 @@ namespace MoviesApi.Migrations
 
                     b.HasIndex("AddressId")
                         .IsUnique();
+
+                    b.HasIndex("ManagerId");
 
                     b.ToTable("Theaters");
                 });
@@ -98,12 +118,25 @@ namespace MoviesApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MoviesApi.Model.Manager", "Manager")
+                        .WithMany("Theaters")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Address");
+
+                    b.Navigation("Manager");
                 });
 
             modelBuilder.Entity("MoviesApi.Model.Address", b =>
                 {
                     b.Navigation("Theater");
+                });
+
+            modelBuilder.Entity("MoviesApi.Model.Manager", b =>
+                {
+                    b.Navigation("Theaters");
                 });
 #pragma warning restore 612, 618
         }
