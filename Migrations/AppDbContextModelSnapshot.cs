@@ -78,16 +78,32 @@ namespace MoviesApi.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId")
+                        .IsUnique();
+
                     b.ToTable("Theaters");
+                });
+
+            modelBuilder.Entity("MoviesApi.Model.Theater", b =>
+                {
+                    b.HasOne("MoviesApi.Model.Address", "Address")
+                        .WithOne("Theater")
+                        .HasForeignKey("MoviesApi.Model.Theater", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("MoviesApi.Model.Address", b =>
+                {
+                    b.Navigation("Theater");
                 });
 #pragma warning restore 612, 618
         }

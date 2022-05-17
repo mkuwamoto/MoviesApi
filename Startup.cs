@@ -28,7 +28,7 @@ namespace MoviesApi
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<AppDbContext>(opts => opts.UseSqlServer(Configuration.GetConnectionString("MovieConnection")));
+			services.AddDbContext<AppDbContext>(opts => opts.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("MovieConnection")));
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
 			{

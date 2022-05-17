@@ -1,4 +1,4 @@
-﻿namespace MoviesApi.Data.Dto.Address
+﻿namespace MoviesApi.Data.Dto
 {
 	public class UpdateAddressDto
 	{

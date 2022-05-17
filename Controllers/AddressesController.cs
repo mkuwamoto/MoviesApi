@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.Data.Context;
-using MoviesApi.Data.Dto.Address;
+using MoviesApi.Data.Dto;
 using MoviesApi.Model;
 
 namespace MoviesApi.Controllers

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MoviesApi.Model
 {
@@ -9,5 +10,8 @@ namespace MoviesApi.Model
 		public string StreetName { get; set; }
 		public string City { get; set; }
 		public int Number { get; set; }
+
+		[JsonIgnore]
+		public virtual Theater Theater { get; set; }
 	}
 }

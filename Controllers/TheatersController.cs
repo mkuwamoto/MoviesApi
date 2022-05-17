@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MoviesApi.Data.Context;
-using MoviesApi.Data.Dto.Theater;
+using MoviesApi.Data.Dto;
 using MoviesApi.Model;
 using System.Collections.Generic;
 using System.Linq;
