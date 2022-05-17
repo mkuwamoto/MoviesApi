@@ -29,6 +29,8 @@ namespace MoviesApi.Controllers
 		public IActionResult GetTheaterById(int id)
 		{
 			Theater theater = _context.Theaters.FirstOrDefault(x => x.Id == id);
+			if(theater == null) return NotFound();
+
 			return Ok(theater);
 		}
 

@@ -2,107 +2,77 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.Data.Context;
+using MoviesApi.Data.Dto.Address;
 using MoviesApi.Model;
 
 namespace MoviesApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AddressesController : ControllerBase
-    {
-        private readonly AppDbContext _context;
+	public class AddressesController : BaseController
+	{
+		private AppDbContext _context;
+		private IMapper _mapper;
 
-        public AddressesController(AppDbContext context)
-        {
-            _context = context;
-        }
+		public AddressesController(AppDbContext context, IMapper mapper)
+		{
+			_context = context;
+			_mapper = mapper;
+		}
 
-        // GET: api/Addresses
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Address>>> GetAddress()
-        {
-            return await _context.Address.ToListAsync();
-        }
+		[HttpGet]
+		public IEnumerable<Address> GetAddresses()
+		{
+			return _context.Address;
+		}
 
-        // GET: api/Addresses/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Address>> GetAddress(int id)
-        {
-            var address = await _context.Address.FindAsync(id);
+		[HttpPost]
+		public IActionResult AddAddress([FromBody] CreateAddressDto addressDto)
+		{
+			try
+			{
+				Address address = _mapper.Map<Address>(addressDto);
+				_context.Address.Add(address);
+				_context.SaveChanges();
+				return CreatedAtAction(nameof(GetAddressById), new { Id = address.Id }, address);
+			}
+			catch
+			{
+				return StatusCode(500);
+			}
+		}
 
-            if (address == null)
-            {
-                return NotFound();
-            }
+		[HttpGet("{id}")]
+		public IActionResult GetAddressById(int id)
+		{
 
-            return address;
-        }
+			Address address = _context.Address.FirstOrDefault(x => x.Id == id);
+			if (address == null) return NotFound();
+			var addressDto = _mapper.Map<GetAddressDto>(address);
+			return Ok(addressDto);
+		}
 
-        // PUT: api/Addresses/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAddress(int id, Address address)
-        {
-            if (id != address.Id)
-            {
-                return BadRequest();
-            }
+		[HttpPut("{id}")]
+		public IActionResult EditAddress(int id, [FromBody] UpdateAddressDto addressDto)
+		{
+			Address address = _context.Address.FirstOrDefault(x => x.Id == id);
+			if (address == null) return NotFound();
+			_mapper.Map(addressDto, address);
+			_context.SaveChanges();
+			return NoContent();
+		}
 
-            _context.Entry(address).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AddressExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Addresses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Address>> PostAddress(Address address)
-        {
-            _context.Address.Add(address);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAddress", new { id = address.Id }, address);
-        }
-
-        // DELETE: api/Addresses/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAddress(int id)
-        {
-            var address = await _context.Address.FindAsync(id);
-            if (address == null)
-            {
-                return NotFound();
-            }
-
-            _context.Address.Remove(address);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool AddressExists(int id)
-        {
-            return _context.Address.Any(e => e.Id == id);
-        }
-    }
+		[HttpDelete("{id}")]
+		public IActionResult DeleteAddress(int id)
+		{
+			Address address = _context.Address.FirstOrDefault(x => x.Id == id);
+			if (address == null) return NotFound();
+			_context.Remove(address);
+			_context.SaveChanges();
+			return NoContent();
+		}
+	}
 }

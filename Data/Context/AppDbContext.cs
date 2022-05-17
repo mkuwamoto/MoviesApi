@@ -12,7 +12,7 @@ namespace MoviesApi.Data.Context
 
 		public DbSet<Movie> Movies { get; set; }
 		public DbSet<Theater> Theaters { get; set; }
-		public DbSet<MoviesApi.Model.Address> Address { get; set; }
+		public DbSet<Address> Address { get; set; }
 
 	}
 }
