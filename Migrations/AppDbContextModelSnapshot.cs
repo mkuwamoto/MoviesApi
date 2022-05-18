@@ -18,6 +18,21 @@ namespace MoviesApi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("MovieTheater", b =>
+                {
+                    b.Property<int>("MoviesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TheatersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MoviesId", "TheatersId");
+
+                    b.HasIndex("TheatersId");
+
+                    b.ToTable("MovieTheater");
+                });
+
             modelBuilder.Entity("MoviesApi.Model.Address", b =>
                 {
                     b.Property<int>("Id")
@@ -110,6 +125,21 @@ namespace MoviesApi.Migrations
                     b.ToTable("Theaters");
                 });
 
+            modelBuilder.Entity("MovieTheater", b =>
+                {
+                    b.HasOne("MoviesApi.Model.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("MoviesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoviesApi.Model.Theater", null)
+                        .WithMany()
+                        .HasForeignKey("TheatersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MoviesApi.Model.Theater", b =>
                 {
                     b.HasOne("MoviesApi.Model.Address", "Address")
@@ -121,8 +151,7 @@ namespace MoviesApi.Migrations
                     b.HasOne("MoviesApi.Model.Manager", "Manager")
                         .WithMany("Theaters")
                         .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Address");
 

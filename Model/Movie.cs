@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MoviesApi.Model
 {
@@ -14,5 +15,7 @@ namespace MoviesApi.Model
 		public string Director { get; set; }
 		public string Genre { get; set; }
 		public string Rating { get; set; }
+
+		public virtual List<Theater> Theaters { get; set; }
 	}
 }
