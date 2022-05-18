@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MoviesApi.Data.Dto;
 using MoviesApi.Model;
+using System.Linq;
 
 namespace MoviesApi.Profiles
 {
@@ -9,8 +10,12 @@ namespace MoviesApi.Profiles
 		public ManagerProfile()
 		{
 			CreateMap<CreateManagerDto, Manager>();
-			CreateMap<Manager, GetManagerDto>();
 			CreateMap<UpdateManagerDto, Manager>();
+			CreateMap<Manager, GetManagerDto>()
+				.ForMember(manager => manager.Theaters, opts => opts
+				.MapFrom(manager => manager.Theaters.Select(
+					t => new { t.Id, t.Name, t.Address, t.AddressId }
+					)));
 		}
 	}
 }

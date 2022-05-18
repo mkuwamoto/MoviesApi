@@ -10,5 +10,6 @@ namespace MoviesApi.Data.Dto
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
         public Address Address { get; set; }
-    }
+		public Manager Manager { get; set; }
+	}
 }

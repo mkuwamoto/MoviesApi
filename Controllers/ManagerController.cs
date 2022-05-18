@@ -45,5 +45,15 @@ namespace MoviesApi.Controllers
 			_context.SaveChanges();
 			return NoContent();
 		}
+
+		[HttpDelete("{id}")]
+		public IActionResult DeleteManager(int id)
+		{
+			Manager manager = _context.Manager.FirstOrDefault(x => x.Id == id);
+			if (manager == null) return NotFound();
+			_context.Remove(manager);
+			_context.SaveChanges();
+			return NoContent();
+		}
 	}
 }

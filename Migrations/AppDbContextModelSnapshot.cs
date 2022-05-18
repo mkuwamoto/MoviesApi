@@ -121,7 +121,7 @@ namespace MoviesApi.Migrations
                     b.HasOne("MoviesApi.Model.Manager", "Manager")
                         .WithMany("Theaters")
                         .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Address");
