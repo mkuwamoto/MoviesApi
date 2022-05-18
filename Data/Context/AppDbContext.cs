@@ -22,12 +22,23 @@ namespace MoviesApi.Data.Context
 				.HasForeignKey(theater => theater.ManagerId)
 				.IsRequired(false)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<Session>()
+				.HasOne(session => session.Movie)
+				.WithMany(movie => movie.Sessions)
+				.HasForeignKey(session => session.MovieId);
+
+			builder.Entity<Session>()
+				.HasOne(session => session.Theater)
+				.WithMany(theater => theater.Sessions)
+				.HasForeignKey(session => session.TheaterId);
 		}
 
 		public DbSet<Movie> Movies { get; set; }
 		public DbSet<Theater> Theaters { get; set; }
 		public DbSet<Address> Address { get; set; }
 		public DbSet<Manager> Manager { get; set; }
+		public DbSet<Session> Sessions { get; set; }
 
 	}
 }

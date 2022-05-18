@@ -15,7 +15,7 @@ namespace MoviesApi.Model
 		public virtual Address Address { get; set; }
 		public virtual Manager Manager { get; set; }
 
-		public virtual List<Movie> Movies { get; set; }
+		public virtual List<Session> Sessions { get; set; }
 
 	}
 }

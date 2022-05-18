@@ -16,6 +16,6 @@ namespace MoviesApi.Model
 		public string Genre { get; set; }
 		public string Rating { get; set; }
 
-		public virtual List<Theater> Theaters { get; set; }
+		public virtual List<Session> Sessions { get; set; }
 	}
 }
