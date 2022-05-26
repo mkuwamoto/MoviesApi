@@ -5,6 +5,7 @@ using MoviesApi.Data.Dto;
 using MoviesApi.Model;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace MoviesApi.Controllers
 {
@@ -30,10 +31,17 @@ namespace MoviesApi.Controllers
 		[HttpPost]
 		public IActionResult CreateSession([FromBody] CreateSessionDto sessionDto)
 		{
-			Session session = _mapper.Map<Session>(sessionDto);
-			_context.Sessions.Add(session);
-			_context.SaveChanges();
-			return CreatedAtAction(nameof(GetSessionsById), new { Id = session.Id }, session);
+			try
+			{
+				Session session = _mapper.Map<Session>(sessionDto);
+				_context.Sessions.Add(session);
+				_context.SaveChanges();
+				return CreatedAtAction(nameof(GetSessionsById), new { Id = session.Id }, session);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest();
+			}
 		}
 
 		[HttpPut("{id}")]

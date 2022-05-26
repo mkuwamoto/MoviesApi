@@ -1,4 +1,6 @@
-﻿namespace MoviesApi.Data.Dto
+﻿using System;
+
+namespace MoviesApi.Data.Dto
 {
 	public class UpdateSessionDto
 	{

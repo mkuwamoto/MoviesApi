@@ -11,7 +11,6 @@ namespace MoviesApi.Model
 		public int TheaterId { get; set; }
 		public int MovieId { get; set; }
 		public DateTime EndingTime { get; set; }
-
 		public virtual Theater Theater { get; set; }
 		public virtual Movie Movie { get; set; }
 	}
